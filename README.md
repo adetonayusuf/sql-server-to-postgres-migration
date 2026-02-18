@@ -57,6 +57,7 @@ However, management will not approve migration until the Data Engineering team p
             COUNT(*)
         FROM [TransactionDB_UAT].[dbo].[Suppliers];
 
+![Query](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/Query.png)
   
     - Total Rows Using CTE
         WITH sql_server_table_count AS (
@@ -77,7 +78,8 @@ However, management will not approve migration until the Data Engineering team p
 
         SELECT FORMAT(SUM(total_rows), '#,0') AS grand_total_rows
         FROM sql_server_table_count;
-
+      
+![CTE](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/CTE.png)
 
 - Result
 1,055,008 rows
@@ -108,7 +110,7 @@ However, management will not approve migration until the Data Engineering team p
     - Load into PostgreSQL
     - Validate results
 
-SQL Server → Python ETL → PostgreSQL → Validation Report
+![sqlserver-postfress.gif](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/sqlserver-postgres.gif)
 
 ### Tools & Technologies
 - SQL Server
@@ -150,7 +152,7 @@ Low-Level
 
 Bar chart comparing row counts between SQL Server and PostgreSQL after migration.
 
-/images/migration_validation_chart.png
+![migration_validation_chart.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/migration_validation_chart.png)
 
 ### Outcome
 
