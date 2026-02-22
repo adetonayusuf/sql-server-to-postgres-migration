@@ -29,7 +29,7 @@ However, management will not approve migration until the Data Engineering team p
 
 - Row Count Audit (SQL Server)
 
-    - We first validate row counts in SQL Server.
+        - We first validate row counts in SQL Server.
 
         SELECT 
             'Categories' AS table_name,
@@ -89,74 +89,87 @@ However, management will not approve migration until the Data Engineering team p
 
 - What Good Data Quality Looks Like
 
-    - Row count equals 1,055,008
-    - No NULL values in required fields
-    - No orphaned foreign keys
-    - No negative numeric values
-    - No future dates
+        - Row count equals 1,055,008
+        - No NULL values in required fields
+        - No orphaned foreign keys
+        - No negative numeric values
+        - No future dates
 
 - Post-Migration Validation
 
-    - Row counts match between SQL Server and PostgreSQL
-    - Data types match
-    - No duplicated primary keys
-    - Tables join correctly
+        - Row counts match between SQL Server and PostgreSQL
+        - Data types match
+        - No duplicated primary keys
+        - Tables join correctly
 
 - Data Architecture
 
-    - Audit data (Before migration)
-    - Extract from SQL Server
-    - Transform data
-    - Load into PostgreSQL
-    - Validate results
+        - Audit data (Before migration)
+        - Extract from SQL Server
+        - Transform data
+        - Load into PostgreSQL
+        - Validate results
 
 ![sqlserver-postfress.gif](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/sqlserver-postgres.gif)
 
 ### Tools & Technologies
-- SQL Server
-- PostgreSQL
-- Python
-- Jupyter Notebook
-- pyodbc
-- psycopg2
-- pandas
-- matplotlib
+    - SQL Server
+    - PostgreSQL
+    - Python
+    - Jupyter Notebook
+    - pyodbc
+    - psycopg2
+    - pandas
+    - matplotlib
 
 ### Pseudocode
 - High-Level
 
-    - Audit SQL Server data
-    - Extract data
-    - Transform data
-    - Load to PostgreSQL
-    - Validate results
-    - Generate validation report
-
-Low-Level
-
-    - Create .env file
-    - Load environment variables
-    - Connect to SQL Server (pyodbc)
-    - Connect to PostgreSQL (psycopg2)
-    - For each table:
-        - Get row count
-        - Extract rows
-        - Convert column names to lowercase
-        - Convert data types
-        - Create PostgreSQL table
-        - Load data
-        - Run post-migration checks
+        - Audit SQL Server data
+        - Extract data
+        - Transform data
+        - Load to PostgreSQL
+        - Validate results
         - Generate validation report
+
+- Low-Level
+
+        - Create .env file
+        - Load environment variables
+        - Connect to SQL Server (pyodbc)
+        - Connect to PostgreSQL (psycopg2)
+        - For each table:
+            - Get row count
+            - Extract rows
+            - Convert column names to lowercase
+            - Convert data types
+            - Create PostgreSQL table
+            - Load data
+            - Run post-migration checks
+            - Generate validation report
 
 Below are the data quality issues identified in SQL Server before migration (migrated as-is):
 
-Data quality issues found (will migrate as-is)
-    > 4,514 customers with NULL names...
-    > 8,844 emails with invalid email formats...
-    > 775 prices contain negative prices...
-    > 1,467 products with negative stock...
-    > 24,700 products with orphaned foreign keys...
-    > 8,658 customers with future creations data later than current date...
+     - 4,514 customers with NULL names...
+                     -- Count NULL names
+                    SELECT COUNT(*) 
+                    FROM [TransactionDB_UAT].[dbo].[Customers] 
+                    WHERE CustomerName IS NULL;
+                    -- NULL - 4,514
+                    -- 4,514 customer records have missing names
+             "We identified duplicate customer names and missing customer name values. Since CustomerName is not a unique identifier, CustomerID will be used for referential integrity and migration validation."
+    - 8,844 emails with invalid email formats...
+    - 775 prices contain negative prices - 775 products contain negative stock values — migrated as-is but flagged for business review.
+    - 1,467 products with negative stock...
+    - 24,700 products with orphaned foreign keys...
+    - 8,658 customers with future creations data later than current date...
+
+## Design Decisions
+
+    - Migration performed table-by-table to reduce memory pressure
+    - Column names standardized to lowercase for PostgreSQL conventions
+    - Data migrated as-is to preserve source-of-truth
+    - Validation performed using row counts and primary key checks
 
 Bar chart comparing row counts between SQL Server and PostgreSQL after migration.
 
