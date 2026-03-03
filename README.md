@@ -150,7 +150,7 @@ However, management will not approve migration until the Data Engineering team p
 
 Below are the data quality issues identified in SQL Server before migration (migrated as-is):
 
-     - 4,514 customers with NULL names...
+- 4,514 customers with NULL names...
                      -- Count NULL names
                     SELECT COUNT(*) 
                     FROM [TransactionDB_UAT].[dbo].[Customers] 
@@ -158,29 +158,29 @@ Below are the data quality issues identified in SQL Server before migration (mig
                     -- NULL - 4,514
                     -- 4,514 customer records have missing names
 
-    ![Customers with Null name.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20Null%20name.png)
+![Customers with Null name.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20Null%20name.png)
 
              "We identified duplicate customer names and missing customer name values. Since CustomerName is not a unique identifier, CustomerID will be used for referential integrity and migration validation."
     - 8,844 emails with invalid email formats...
 
-    ![Invalid email.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Invalid%20email.png)
+![Invalid email.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Invalid%20email.png)
 
     - 775 prices contain negative prices - 775 products contain negative stock values — migrated as-is but flagged for business review.
 
-    ![Product with negative price.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/product%20with%20negative%20price.png)
+![Product with negative price.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/product%20with%20negative%20price.png)
 
     - 1,467 products with negative stock...
 
-    ![Product with negative stock.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20negative%20stocks.png)
+![Product with negative stock.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20negative%20stocks.png)
 
     - 24,700 products with orphaned foreign keys...
 
-    ![products with orphaned foreign key.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20orphaned%20foreign%20key.png)
+![products with orphaned foreign key.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20orphaned%20foreign%20key.png)
 
 
     - 2,693 customers with future creations data later than current date...
 
-    ![Customers with future dates.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20future%20dates.png)
+![Customers with future dates.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20future%20dates.png)
 
 
 ## Design Decisions
