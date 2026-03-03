@@ -57,7 +57,7 @@ However, management will not approve migration until the Data Engineering team p
             COUNT(*)
         FROM [TransactionDB_UAT].[dbo].[Suppliers];
 
-![Query](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/Query.png)
+![Query](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Query.png)
   
     - Total Rows Using CTE
         WITH sql_server_table_count AS (
@@ -79,7 +79,7 @@ However, management will not approve migration until the Data Engineering team p
         SELECT FORMAT(SUM(total_rows), '#,0') AS grand_total_rows
         FROM sql_server_table_count;
       
-![CTE](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/CTE.png)
+![CTE](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/CTE.png)
 
 - Result
 1,055,008 rows
@@ -110,7 +110,7 @@ However, management will not approve migration until the Data Engineering team p
         - Load into PostgreSQL
         - Validate results
 
-![sqlserver-postfress.gif](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/sqlserver-postgres.gif)
+![sqlserver-postfress.gif](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/sqlserver-postgres.gif)
 
 ### Tools & Technologies
     - SQL Server
@@ -157,12 +157,31 @@ Below are the data quality issues identified in SQL Server before migration (mig
                     WHERE CustomerName IS NULL;
                     -- NULL - 4,514
                     -- 4,514 customer records have missing names
+
+    ![Customers with Null name.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20Null%20name.png)
+
              "We identified duplicate customer names and missing customer name values. Since CustomerName is not a unique identifier, CustomerID will be used for referential integrity and migration validation."
     - 8,844 emails with invalid email formats...
+
+    ![Invalid email.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Invalid%20email.png)
+
     - 775 prices contain negative prices - 775 products contain negative stock values — migrated as-is but flagged for business review.
+
+    ![Product with negative price.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/product%20with%20negative%20price.png)
+
     - 1,467 products with negative stock...
+
+    ![Product with negative stock.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20negative%20stocks.png)
+
     - 24,700 products with orphaned foreign keys...
-    - 8,658 customers with future creations data later than current date...
+
+    ![products with orphaned foreign key.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/products%20with%20orphaned%20foreign%20key.png)
+
+
+    - 2,693 customers with future creations data later than current date...
+
+    ![Customers with future dates.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/Customers%20with%20future%20dates.png)
+
 
 ## Design Decisions
 
@@ -173,7 +192,7 @@ Below are the data quality issues identified in SQL Server before migration (mig
 
 Bar chart comparing row counts between SQL Server and PostgreSQL after migration.
 
-![migration_validation_chart.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/migration_validation_chart.png)
+![migration_validation_chart.png](https://github.com/adetonayusuf/sql-server-to-postgres-migration/blob/main/docs/migration_validation_chart.png)
 
 ### Outcome
 
